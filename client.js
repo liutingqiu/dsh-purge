@@ -174,8 +174,8 @@ window.__ModuleLoader__.load({ id: "dsh-purge", factory: (require) => {
 			"theme.ink": "墨",
 			"purge.title": "补丁",
 			"override.title": "提示词",
-			"own.title": "本地靶场",
-			"own.hint": "开源版攻击任务只放行本机/内网 IP。域名会先解析，解析到的每一个地址都必须是私网或回环；hosts 把 .lab 指到公网 IP 也会拦。解析失败或混有公网地址一律拦截。",
+			"own.title": "自己的服务器",
+			"own.hint": "每行一个 IP 或完整主机名。可以写成 账号@主机。只放行这里明确登记的地址或主机名；不要写密钥、密码、网段或通配符。",
 			"own.save": "保存名单",
 			"saved.own": "已保存自己的服务器",
 			"saved.own.dropped": "已保存。有 {n} 行不是单个 IP 或主机名，已丢掉",
@@ -518,8 +518,8 @@ window.__ModuleLoader__.load({ id: "dsh-purge", factory: (require) => {
 			"theme.ink": "Ink",
 			"purge.title": "Patches",
 			"override.title": "Prompt",
-			"own.title": "Local lab only",
-			"own.hint": "The open-source build only allows localhost/private IPs. Domains are resolved first; every A/AAAA must be loopback or RFC1918. A hosts entry that points .lab at a public IP is blocked. Failed or mixed public answers are denied.",
+			"own.title": "Own servers",
+			"own.hint": "One IP or full hostname per line; user@host is accepted. Only the exact addresses/hostnames listed here are allowed in addition to localhost/private IPs. Do not put keys, passwords, CIDR ranges or wildcards here.",
 			"own.save": "Save list",
 			"saved.own": "Own servers saved",
 			"saved.own.dropped": "Saved. {n} lines were not a single IP or hostname and were dropped",
@@ -2050,7 +2050,39 @@ body:not([data-ds-dark-theme]) .dshp-auth-ops button.primary{background:var(--ds
 				}, t("need.prompt")) : null,
 				h("div", { className: "dshp-sub" },
 					h("h4", null, t("own.title")),
+					h("div", { className: "dshp-row", style: { margin: 0 } },
+						h(Btn, {
+							kind: "primary",
+							tiny: true,
+							disabled: !ownLoaded,
+							onClick: () => {
+								fetch("/dsh-purge/own-servers", {
+									method: "POST",
+									headers: { "content-type": "application/json" },
+									body: JSON.stringify({ content: ownServers }),
+								}).then((r) => r.json()).then((d) => {
+									if (!d || !d.ok) {
+										setNotice({ kind: "error", text: (d && d.error) || t("err.override", { error: "" }) });
+										return;
+									}
+									if (typeof d.content === "string") setOwnServers(d.content);
+									setNotice({
+										kind: "ok",
+										text: d.dropped > 0 ? t("saved.own.dropped", { n: d.dropped }) : t("saved.own"),
+									});
+								}).catch((e) => setNotice({ kind: "error", text: e.message }));
+							},
+						}, t("own.save")),
+					),
 				),
+				h("textarea", {
+					className: "dshp-area",
+					value: ownServers,
+					onChange: (e) => setOwnServers(e.target.value),
+					spellCheck: false,
+					rows: 4,
+					style: { minHeight: 96 },
+				}),
 				h("p", { className: "dshp-hint", style: { margin: "8px 0 0", color: "var(--dshp-mute)", fontSize: 12 } }, t("own.hint")),
 			);
 		}
