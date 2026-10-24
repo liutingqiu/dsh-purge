@@ -66,3 +66,27 @@
     # 演练台 HTTP 桥 POST /redteam/api
     - id: dsh-purge-redteam-ui
       name: dsh-purge/redteam/ui
+
+# Manual/tarball installs may not create the bundle-root row. Insert the main
+# plugin row explicitly so lib/index.js actually applies.
+- insert:
+    - id: dsh-purge
+      name: dsh-purge
+      inject: [systemPrompt, tools]
+      config:
+        enabled: true
+        autoApplyOnStart: false
+        autoUpdateOnStart: false
+        autoRevertOnMissing: false
+        injectOnce: false
+        stripMnemon: true
+        verbose: false
+        postPrompt: ""
+        postPromptOrder: 5100
+        autoRetry: true
+        retryMax: 3
+        autoContinue: false
+        continueMax: 3
+        continueText: "继续"
+        capabilityProtocol: true
+        hooksDenyBypass: true
