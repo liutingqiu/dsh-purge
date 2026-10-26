@@ -1,3 +1,14 @@
+> **社区修改版 — 不是官方 dsh-purge 仓库。**
+>
+> 本仓库基于 [YuJunZhiXue/dsh-purge](https://github.com/YuJunZhiXue/dsh-purge)
+> `v1.1.77`（`ac58b3e`）。回补了 MIT 许可的 `v1.1.71` 镜像中保留的 23 个
+> `skills/redteam` 技能，恢复了精确主机匹配的“自己的服务器”白名单，并修复了
+> 手动 tarball 安装不加载主插件的问题。完整改动见 [PATCH-NOTICE.md](PATCH-NOTICE.md)，
+> 安装步骤见 [INSTALL.md](INSTALL.md)。
+>
+> 原作者：**YuJunZhiXue**；镜像：**mmparko**。本 fork 与原作者无隶属或背书关系。
+> 仅用于你拥有或已获得书面授权的目标，不要倒卖。
+
 <p align="center">
   <img src="docs/banner.svg" alt="dsh-purge" width="720">
 </p>

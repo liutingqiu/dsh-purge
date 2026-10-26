@@ -1,3 +1,15 @@
+> **Community fork — not the official dsh-purge repository.**
+>
+> This build is based on [YuJunZhiXue/dsh-purge](https://github.com/YuJunZhiXue/dsh-purge)
+> `v1.1.77` (`ac58b3e`). It restores the 23 `skills/redteam` files preserved in the
+> MIT-licensed `v1.1.71` mirror, re-enables the exact-host own-server allowlist, and
+> fixes manual tarball installation. See [PATCH-NOTICE.md](PATCH-NOTICE.md) for the
+> full diff and [INSTALL.md](INSTALL.md) for setup.
+>
+> Upstream author: **YuJunZhiXue**. Mirror: **mmparko**. This fork is not affiliated
+> with or endorsed by the upstream author. Use only against systems you own or have
+> written authorization to test. Do not resell.
+
 <p align="center">
   <img src="docs/banner.svg" alt="dsh-purge" width="720">
 </p>
